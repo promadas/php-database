@@ -1,11 +1,12 @@
 <?php
-
-$conn=new mysqli("localhost","root","","wtk");
+function connect(){
+$conn=new mysqli("localhost","proma","123","wtk");
 
 if($conn-> connect_errno)
 {
 die("connection failed: ".$conn-> connect_errno); 
 }
-echo "database connect successfully";
+return $conn;
+}
 
 ?>

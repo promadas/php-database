@@ -1,7 +1,7 @@
 
 <?php
-		
-		$fname=$lname=$DoB=$religion=$email=$uname=$pass=$presentaddress=$permanentaddress=$phonono="";
+		include 'DBinsert.php';
+		$firstname=$lastname=$Dob=$religion=$email=$username=$password=$presentaddress=$permanentaddress=$phone="";
 		$fnameErr=$lnameErr=$genderErr=$DoBErr=$religionErr=$emailErr=$unameErr=$passErr="";
 		$isValid=true;
 		$successfulMessage ="";
@@ -10,23 +10,22 @@
 
 		if($_SERVER['REQUEST_METHOD']==="POST")
 		{
-			$fname=$_POST['fname'];
-			$lname=$_POST['lname'];
-		
-			$DoB=$_POST['DoB'];
+			$firstname=$_POST['firstname'];
+			$lastname=$_POST['lastname'];
+			$Dob=$_POST['Dob'];
 			$religion=$_POST['religion'];
 			$email=$_POST['email'];
-			$uname=$_POST['uname'];
-			$pass=$_POST['pass'];
+			$username=$_POST['username'];
+			$password=$_POST['password'];
 			$presentaddress=$_POST['comment'];
 			$permanentaddress=$_POST['comment1'];
-			$phonono=$_POST['phone'];
-			if(empty($fname ))
+			
+			if(empty($firstname ))
 			{
 				$fnameErr="first name cannot be empty";
 				$flag= true;
 			}
-			if(empty($lname))
+			if(empty($lastname))
 			{
 				$lnameErr="last name cannot be empty";
 				$isValid=false;
@@ -36,7 +35,7 @@
 				$genderErr= "required";
 				$isValid=false;
 			}
-			if(empty($DoB ))
+			if(empty($Dob ))
 			{
 				$DoBErr="required";
 				$isValid=false;
@@ -51,29 +50,30 @@
 				$emailErr="email canno be invalid";
 				$isValid=false;
 			}
-			if(empty($uname ))
+			if(empty($username ))
 			{
 				$unameErr="username should be 8 characters 2 numerical";
 			
 				$isValid=false;
 			}
-			if(empty($pass ))
+			if(empty($password ))
 			{
 				$passErr="password should be 8 charcter";
 				
 				$isValid=false;
 			}
+			
 			if($isValid)
 			{
-				$fname=test_input($fname);
-				$lname=test_input($lname);
+				$firstname=test_input($firstname);
+				$lastname=test_input($lastname);
 				$gender=test_input($_POST['gender']);
-				$DoB=test_input($DoB);
+				$Dob=test_input($Dob);
 				$religion=test_input($religion);
 				$email=test_input($email);
-				$uname=test_input($uname);
-				$pass=test_input($pass);
-				$response = true;
+				$username=test_input($username);
+				$password=test_input($password);
+				$response = register($firstname,$lastname,$gender,$Dob,$religion,$presentaddress,$permanentaddress,$phone,$email,$username,$password  );
 				if($response)
 				{
 					
@@ -115,14 +115,14 @@
 		<form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="POST">
 		<fieldset>
 			<legend>Basic Information :</legend>
-			<label for="fname">First Name<span style="color: red;">*</span>:</label>
-			<input type="text" id="fname" name="fname" >
+			<label for="firstname">First Name<span style="color: red;">*</span>:</label>
+			<input type="text" id="firstname" name="firstname" >
 			<span style="color: red"><?php echo $fnameErr; ?></span>
 
 		
 			
-			<label for="lname">Last Name<span style="color: red;">*</span> :</label>
-			<input type="text" id="lname" name="lname" >
+			<label for="lastname">Last Name<span style="color: red;">*</span> :</label>
+			<input type="text" id="lastname" name="lastname" >
 			<span style="color: red"><?php echo $lnameErr; ?></span>
 			<br>
 
@@ -130,18 +130,18 @@
 			<label for="gender">Gender<span style="color: red;">*</span>:</label>
 			
 			<br>
-			<input type="radio" id="gender" name="gender">
+			<input type="radio" id="gender" name="gender" value="male">
 			<label for="male">Male</label>
 			<br>
-			<input type="radio" id="gender" name="gender">
+			<input type="radio" id="gender" name="gender" value="female">
 			<label for="female">Female</label>
 			<br>
-			<input type="radio" id="gender" name="gender">
+			<input type="radio" id="gender" name="gender" value="other">
 			<label for="other"> other</label>
 			<span style="color: red"><?php echo $genderErr; ?></span>
 			<br>
-			<label for="DoB">DoB<span style="color: red;">*</span>:</label>
-			<input type="date" id="DoB" name="DoB">
+			<label for="Dob">DoB<span style="color: red;">*</span>:</label>
+			<input type="date" id="Dob" name="Dob">
 			<span style="color: red"><?php echo $DoBErr; ?></span>
 			<br>
 			<label for="religion">Religion<span style="color: red;">*</span>:: </label>
@@ -159,26 +159,28 @@
 			<textarea id="comment" name="comment" rows="5" cols="10" value="<?php echo $presentaddress;?>"></textarea>
 			<br> 
 			<label for="comment1">Permanent  Address</label>
-			<textarea id="comment1" name="comment1" rows="5" cols="10" value="<?php echo $permanentaddress;?>">></textarea>
+			<textarea id="comment1" name="comment1" rows="5" cols="10" value="<?php echo $permanentaddress;?>"></textarea>
 			<br>
 			<label for="phone">Enter your phone number:</label>
-			<input type="tel" id="phone" name="phone">
+			<input type="tel" id="phone" name="phone" >
 			<br>
 			<label for="email">Email<span style="color: red;">*</span>: </label>
 			<input type="email" id="email" name="email" >
 			<span style="color: red"><?php echo $emailErr;?></span>
 			<br>
-			<a href="https://github.com" target="_blank">Personal Website</a>
+			
+
+			<a href="https://github.com" target="_blank" >Personal Website</a>
 		</fieldset>
 		<fieldset>
 			<legend> Account Information:</legend>
-			<label for="uname">Username<span style="color: red;">*</span>:</label>
-			<input type="text" id="uname" name="uname" >
+			<label for="username">Username<span style="color: red;">*</span>:</label>
+			<input type="text" id="username" name="username" >
 			<span style="color: red"><?php echo $unameErr;?></span>
 			
 			<br>
-			<label for="pass">Password<span style="color: red;">*</span>:</label>
-			<input type="Password" id="pass" name="pass" >
+			<label for="password">Password<span style="color: red;">*</span>:</label>
+			<input type="Password" id="password" name="password" >
 			<span style="color: red"><?php echo $passErr;?></span>
 			
 
