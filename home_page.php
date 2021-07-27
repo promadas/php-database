@@ -1,17 +1,19 @@
 <?php
 session_start();
 ?>
-
 <!doctype html>
 	<html>
-	<head >
+	<head>
 		<meta charset="utf-8">
 		<title>home page</title>
 
 	</head>
-	<body style="background: #7CB9E8;">
-		<h1>Welcome,<?php echo isset($_SESSION['uname']) ? $_SESSION['uname']: "Proma" ?></h1>
-		<p><a href="log_out.php">Logout</a></p>
-	
+	<body >
+		<h1> welcome, <?php echo isset($_SESSION['username']) ? $_SESSION['username'] : "Anonymous" ?></h1>
+		<a href ="log_out.php">logout</a>
+		
 	</body>
+
+
 </html>
+

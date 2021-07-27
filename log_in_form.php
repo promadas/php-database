@@ -1,44 +1,33 @@
-<!doctype html>
-	<html>
-	<head>
-		<meta charset="utf-8">
-		<title>Log in Form</title>
-	</head>
-	<body>
-		<h1>Log in form</h1>
-		<?php
-		
-		$uname=$pass=$unameErr=$passErr=$successfulMessage=$errorMessage="";
-		$isValid=false;
+<?php
+		include 'DBread.php'; 
+		$username=$password=$unameErr=$passErr=$errorMessage="";
+		$isValid= true;
 		$loginflag=false;
 		if($_SERVER['REQUEST_METHOD']==="POST")
 		{
 			
-			$uname=$_POST['uname'];
-			$pass=$_POST['pass'];
-			if(empty($uname ))
+			$username=$_POST['username'];
+			$password=$_POST['password'];
+			if(empty($username ))
 			{
 				$unameErr="username should be 8 characters 2 numerical";
-				$isValid= true;
-			}
-			if(empty($pass ))
+				$isValid= false;
+			} 
+			if(empty($password ))
 			{
 				$passErr="password should be 8 charcter";
-				$isValid= true;
+				$isValid= false;
 			}
 			if($isValid)
 			{
-				$uname=test_input($uname);
-				$pass=test_input($pass);
-				$response=true;
+				$username=test_input($username);
+				$password=test_input($password);
+				$response= login($username,$password); 
 				if($response)
 				{
 					session_start();
-					$_SESSION['uname']=$uname;
-					
-
-
-					header("Location: home_page.php");
+					$_SESSION['username']= $username;
+					 header('Location: home_page.php');
 				}
 				else
 				{
@@ -53,23 +42,32 @@
 			$data=trim($data);
 			$data=stripcslashes($data);
 			$data=htmlspecialchars($data);
+			return $data;
 		}
 		
 		
 			?>
+	<!doctype html>
+	<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Log in Form</title>
+	</head>
+	<body>
+		<h1>Log in form</h1>
 			<div style = "position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%);">
 			<form action="" method="POST">
 			<fieldset>
 			<legend> Account Information:</legend>
-			<label for="uname">Username<span style="color: red;">*</span>:</label>
-			<input type="text" id="uname" name="uname" >
+			<label for="username">Username<span style="color: red;">*</span>:</label>
+			<input type="text" id="username" name="username" >
 			<span style="color: red"><?php echo $unameErr;?></span>
 			<br>
 			<br>
 			
 			<br>
-			<label for="pass">Password<span style="color: red;">*</span>:</label>
-			<input type="Password" id="pass" name="pass" >
+			<label for="password">Password<span style="color: red;">*</span>:</label>
+			<input type="Password" id="password" name="password" >
 			<span style="color: red"><?php echo $passErr;?></span>
 			
 
@@ -82,7 +80,6 @@
 		<input type="Submit" name="submit" value="log in">
 
 	</form>
-	<span style="color: green"><?php echo $successfulMessage;?></span>
 	<span style="color: red"><?php echo $errorMessage;?></span>
 	<p>Dont have an account?<a href="registration_form.php">Register</a></p>
 	

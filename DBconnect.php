@@ -1,6 +1,6 @@
 <?php
 function connect(){
-$conn=new mysqli("localhost","proma","123","wtk");
+$conn=new mysqli("localhost","proma","123","wtg");
 
 if($conn-> connect_errno)
 {

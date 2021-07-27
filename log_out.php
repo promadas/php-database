@@ -2,6 +2,6 @@
 session_start();
 session_unset();
 session_destroy();
-header("Location: log_in_form.php");
+header('Location: log_in_form.php');
 
 ?>

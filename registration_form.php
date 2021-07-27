@@ -73,7 +73,7 @@
 				$email=test_input($email);
 				$username=test_input($username);
 				$password=test_input($password);
-				$response = register($firstname,$lastname,$gender,$Dob,$religion,$presentaddress,$permanentaddress,$phone,$email,$username,$password  );
+				$response = register($firstname,$lastname,$gender,$Dob,$religion,$presentaddress,$permanentaddress,$phone,$email,$username,$password);
 				if($response)
 				{
 					
@@ -191,8 +191,8 @@
 		<input type="Submit" name="submit" value="submit">
 
 	</form>
-	<span style="color:green;"><?php echo $successfulMessage;?></span>
-	<span style="color:red;"><?php echo $errorMessage ;?></span>
+	<span style="color:green"><?php echo $successfulMessage;?></span>
+	<span style="color:red"><?php echo $errorMessage ;?></span>
 	<p>Back to <a href="log_in_form.php">log in</a></p>
 
 	
