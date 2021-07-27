@@ -11,6 +11,15 @@ $conn->close();
 return $response;
 
 }
+function findUser($username)
+    {
+        $conn = connect();
+        $sql = $conn->prepare("SELECT * FROM users WHERE username = ?");
+        $sql->bind_param("s", $username);
+        $sql->execute();
+        $res = $sql->get_result();
+        return $res->num_rows === 1;
+    }
 
 
 

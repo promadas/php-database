@@ -56,6 +56,15 @@
 			
 				$isValid=false;
 			}
+			else
+			{
+				$response1=findUser($username)
+				if($response1)
+				{
+					$flag= true;
+					$unameErr="username already exist!";
+				}
+			}
 			if(empty($password ))
 			{
 				$passErr="password should be 8 charcter";
@@ -112,7 +121,7 @@
 	<body >
 
 		<h1>Registration Form</h1>
-		<form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="POST">
+		<form action="hellojsaction.php <?php htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="POST" onsubmit="return isValid()" name="mForm" id="nform">
 		<fieldset>
 			<legend>Basic Information :</legend>
 			<label for="firstname">First Name<span style="color: red;">*</span>:</label>
@@ -194,6 +203,17 @@
 	<span style="color:green"><?php echo $successfulMessage;?></span>
 	<span style="color:red"><?php echo $errorMessage ;?></span>
 	<p>Back to <a href="log_in_form.php">log in</a></p>
+	<script>
+		function isValid()
+		{
+			var firstname=document.forms["mform"]["firstname"].value;
+			if(firstname==="")
+			{
+				document.getElementById("fnameErr").innerHTML="Field empty";
+				return false;
+			}
+		}
+	</script>
 
 	
 	
